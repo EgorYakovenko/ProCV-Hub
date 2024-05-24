@@ -1,50 +1,43 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { getAllResponses } from './redux/responses/operations';
+import { addResponse } from './redux/responses/operations';
+import { updateRow, addRow, removeRow } from './redux/responses/slice';
 
 // import { useState } from 'react';
 
 function App() {
-  const [data, setData] = useState([
-    {
-      date: '',
-      nameOfCompany: '',
-      link: '',
-      dropdown: 'option1',
-      interview: '',
-    },
-  ]);
+  const data = useSelector(state => state.table.data);
+  const status = useSelector(state => state.table.status);
+  const error = useSelector(state => state.table.error);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(getAllResponses());
+    }
+  }, [status, dispatch]);
 
   const handleChange = (index, field, value) => {
-    const newData = [...data];
-    newData[index][field] = value;
-    setData(newData);
-  };
-
-  const handleAddRow = () => {
-    setData([
-      ...data,
-      {
-        date: '',
-        nameOfCompany: '',
-        link: '',
-        dropdown: 'option1',
-        interview: '',
-      },
-    ]);
-  };
-
-  const handleRemoveRow = index => {
-    const newData = data.filter((_, i) => i !== index);
-    setData(newData);
+    dispatch(updateRow({ index, field, value }));
   };
 
   const handleDropdownChange = (index, value) => {
-    const newData = [...data];
-    newData[index].dropdown = value; // Обновляем значение выпадающего меню
-    console.log(index);
-    setData(newData);
+    dispatch(updateRow({ index, field: 'dropdown', value }));
+  };
+
+  const handleAddRow = () => {
+    dispatch(addRow());
+  };
+
+  const handleRemoveRow = index => {
+    dispatch(removeRow(index));
+  };
+
+  const handleSubmit = () => {
+    dispatch(addResponse(data));
   };
 
   return (
@@ -57,6 +50,7 @@ function App() {
             <th>Ссылка на вакансию</th>
             <th>Результат отзыва</th>
             <th>Интервью</th>
+            <th>Действия</th>
           </tr>
         </thead>
         <tbody>
@@ -85,7 +79,6 @@ function App() {
                   onChange={e => handleChange(index, 'link', e.target.value)}
                 />
               </td>
-
               <td>
                 <select
                   value={row.dropdown}
@@ -115,6 +108,9 @@ function App() {
         </tbody>
       </table>
       <button onClick={handleAddRow}>Add Row</button>
+      <button onClick={handleSubmit}>Save Data</button>
+      {status === 'loading' && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
     </div>
   );
 }
