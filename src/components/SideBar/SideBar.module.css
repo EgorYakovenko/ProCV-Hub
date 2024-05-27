@@ -1,0 +1,24 @@
+.app-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.sidebar {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 150px; /* Ширина боковой панели */
+  background-color: #f4f4f4; /* Цвет фона боковой панели */
+  border-left: 1px solid #ccc; /* Линия разделения */
+  position: fixed; /* Фиксированное позиционирование */
+  left: 0; /* Прикрепление к правой стороне */
+  top: 0; /* Прикрепление к верху */
+  bottom: 0; /* Прикрепление к низу */
+}
+
+.content {
+  flex: 1; /* Занимает оставшееся пространство */
+  padding: 20px;
+  margin-right: 200px; /* Отступ для боковой панели */
+}
