@@ -1,5 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useId } from 'react';
+import { useDispatch } from 'react-redux';
+import { addResponse } from '../../redux/responses/operations';
 
 export function ResponseForm({ onClose }) {
   const company = useId();
@@ -9,8 +11,11 @@ export function ResponseForm({ onClose }) {
   const eventDate = useId();
   const nameEvent = useId();
 
+  const dispatch = useDispatch();
+
   const handleSubmit = values => {
     onClose();
+    dispatch(addResponse);
     console.log('add response ', values);
   };
   return (
