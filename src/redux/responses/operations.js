@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { thunk } from 'redux-thunk';
 
 axios.defaults.baseURL = 'http://localhost:3000';
 
@@ -21,9 +20,10 @@ export const addResponse = createAsyncThunk(
   'response/addResponse',
   async (newResponse, thunkAPI) => {
     try {
-      const res = await axios.post('/api/response', newResponse);
+      const res = await axios.post('/api/responses', newResponse);
       return res.data;
     } catch (error) {
+      console.log(error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

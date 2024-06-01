@@ -15,32 +15,42 @@ export function ResponseForm({ onClose }) {
 
   const handleSubmit = values => {
     onClose();
-    dispatch(addResponse);
-    console.log('add response ', values);
+    dispatch(addResponse(values));
+    // dispatch(
+    //   addResponse({
+    //     company: values.company,
+    //     resp: values.resp,
+    //     selection: values.selection,
+    //     link: values.link,
+    //     dateEvent: values.dateEvent,
+    //     nameEvent: values.nameEvent,
+    //   })
+    // );
+    // console.log('add response ', values);
   };
   return (
     <Formik
       initialValues={{
-        company: '',
-        resp: '',
-        selection: '',
+        nameCompany: '',
+        dateResp: '',
+        reviewResult: '',
         link: '',
-        event: '',
-        nameEvent: '',
+        dateEvent: '',
+        interview: '',
       }}
       onSubmit={handleSubmit}
     >
       <Form>
         <label htmlFor={company}>Название компании</label>
-        <Field type="text" name="company" id={company}></Field>
-        <ErrorMessage name="company" />
+        <Field type="text" name="nameCompany" id={company}></Field>
+        <ErrorMessage name="nameCompany" />
 
         <label htmlFor={dateResponse}>Дата отклика на вакансию</label>
-        <Field type="date" name="resp" id={dateResponse}></Field>
-        <ErrorMessage name="resp" />
+        <Field type="date" name="dateResp" id={dateResponse}></Field>
+        <ErrorMessage name="dateResp" />
 
         <label htmlFor={select}>Стадия</label>
-        <Field as="select" id={select} name="selection">
+        <Field as="select" id={select} name="reviewResult">
           <option value="" label="Выберите стадию" />
           <option value="На рассмотрении" label="На рассмотрении" />
           <option value="Проигнорировано" label="Проигнорировано" />
@@ -48,19 +58,19 @@ export function ResponseForm({ onClose }) {
           <option value="Тестовое задание" label="Тестовое задание" />
           <option value="Отказ" label="Отказ" />
         </Field>
-        <ErrorMessage name="selection" />
+        <ErrorMessage name="reviewResult" />
 
         <label htmlFor={link}>Ссылка на вакансию</label>
         <Field type="link" name="link" id={link}></Field>
         <ErrorMessage name="link" />
 
         <label htmlFor={eventDate}>Дата события</label>
-        <Field type="date" name="event" id={eventDate}></Field>
-        <ErrorMessage name="event" />
+        <Field type="date" name="dateEvent" id={eventDate}></Field>
+        <ErrorMessage name="dateEvent" />
 
         <label htmlFor={nameEvent}>Название события</label>
-        <Field type="text" name="nameEvent" id={nameEvent}></Field>
-        <ErrorMessage name="nameEvent" />
+        <Field type="text" name="interview" id={nameEvent}></Field>
+        <ErrorMessage name="interview" />
 
         <button type="submit">Добавить</button>
       </Form>

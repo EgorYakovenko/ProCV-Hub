@@ -4,37 +4,11 @@ import { getAllResponses, addResponse } from './operations';
 const responsesSlice = createSlice({
   name: 'responses',
   initialState: {
-    data: [
-      {
-        date: '',
-        nameOfCompany: '',
-        link: '',
-        dropdown: 'option1',
-        interview: '',
-      },
-    ],
+    data: [],
     status: 'idle',
     error: null,
   },
-  reducers: {
-    updateRow: (state, action) => {
-      const { index, field, value } = action.payload;
-      state.data[index][field] = value;
-    },
-    addRow: state => {
-      state.data.push({
-        date: '',
-        nameOfCompany: '',
-        link: '',
-        dropdown: 'option1',
-        interview: '',
-      });
-    },
-    removeRow: (state, action) => {
-      const index = action.payload;
-      state.data = state.data.filter((_, i) => i !== index);
-    },
-  },
+
   extraReducers: bulder =>
     bulder
       .addCase(getAllResponses.pending, state => {
@@ -53,6 +27,8 @@ const responsesSlice = createSlice({
       })
       .addCase(addResponse.fulfilled, (state, action) => {
         state.status = 'succeeded';
+        // state.data = action.payload;
+        state.data.push(action.payload);
       })
       .addCase(addResponse.rejected, (state, action) => {
         state.status = 'failed';
@@ -60,6 +36,33 @@ const responsesSlice = createSlice({
       }),
 });
 
-export const { updateRow, addRow, removeRow } = responsesSlice.actions;
-
 export const responsesReducer = responsesSlice.reducer;
+
+// reducers: {
+//   updateRow: (state, action) => {
+//     const { index, field, value } = action.payload;
+//     state.data[index][field] = value;
+//   },
+//   addRow: state => {
+//     state.data.push({
+//       date: '',
+//       nameOfCompany: '',
+//       link: '',
+//       dropdown: 'option1',
+//       interview: '',
+//     });
+//   },
+//   removeRow: (state, action) => {
+//     const index = action.payload;
+//     state.data = state.data.filter((_, i) => i !== index);
+//   },
+// },
+
+// {
+//   dateResp: '',
+//   nameCompany: '',
+//   link: '',
+//   reviewResult: 'option1',
+//   interview: '',
+//   dateEvent: '',
+// },
